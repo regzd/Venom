@@ -31,12 +31,14 @@ PKG_CHECK_MODULES(GEE  REQUIRED gee-0.8>=0.8)
 PKG_CHECK_MODULES(GIO  REQUIRED gio-2.0>=${TARGET_GLIB})
 PKG_CHECK_MODULES(GLIB REQUIRED glib-2.0>=${TARGET_GLIB})
 PKG_CHECK_MODULES(TOX  REQUIRED libtoxcore>=0.0)
+PKG_CHECK_MODULES(WEBKIT REQUIRED webkitgtk-3.0)
 
 SET(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} ${GTK_CFLAGS} ${GTK_CFLAGS_OTHER}
                  ${GEE_CFLAGS} ${GEE_CFLAGS_OTHER}
                  ${GIO_CFLAGS} ${GIO_CFLAGS_OTHER}
                  ${GLIB_CFLAGS} ${GLIB_CFLAGS_OTHER}
                  ${TOX_CFLAGS} ${TOX_CFLAGS_OTHER}
+                 ${WEBKIT_CFLAGS} ${WEBKIT_CFLAGS_OTHER}
 )
 
 # since pkg_check_modules returns semicolon
@@ -115,6 +117,18 @@ VALA_PRECOMPILE( VALA_C_GROUPTEST
   GENERATE_HEADER
 )
 
+VALA_PRECOMPILE( VALA_C_WEBKITTEST
+    testing/WebkitTest.vala
+  PACKAGES
+    webkit-3.0
+  OPTIONS
+    --debug
+    --vapidir=${CMAKE_SOURCE_DIR}/src/vapi
+  CUSTOM_VAPIS
+  GENERATE_VAPI
+  GENERATE_HEADER
+)
+
 GLIB_COMPILE_RESOURCES( GLIB_RESOURCES_VENOM
   SOURCE
     ui/venom.gresource.xml
@@ -135,6 +149,10 @@ ADD_EXECUTABLE( grouptest EXCLUDE_FROM_ALL
   ${VALA_C_GROUPTEST}
 )
 
+ADD_EXECUTABLE( webkit_test EXCLUDE_FROM_ALL
+  ${VALA_C_WEBKITTEST}
+)
+
 TARGET_LINK_LIBRARIES( venom
                        ${GTK_LIBRARIES}
                        ${GEE_LIBRARIES}
@@ -152,6 +170,10 @@ TARGET_LINK_LIBRARIES( grouptest
                        ${GEE_LIBRARIES}
                        ${GIO_LIBRARIES}
                        ${TOX_LIBRARIES}
+)
+
+TARGET_LINK_LIBRARIES( webkit_test
+                       ${WEBKIT_LIBRARIES}
 )
 
 INSTALL(TARGETS venom RUNTIME DESTINATION bin)
