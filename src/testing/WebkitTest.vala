@@ -36,9 +36,12 @@ public class ValaBrowser : Window {
 
     private void create_widgets () {
         var toolbar = new Toolbar ();
-        this.back_button = new ToolButton.from_stock (Stock.GO_BACK);
-        this.forward_button = new ToolButton.from_stock (Stock.GO_FORWARD);
-        this.reload_button = new ToolButton.from_stock (Stock.REFRESH);
+        this.back_button = new ToolButton(null, null);
+        this.back_button.set_icon_name("go-previous");
+        this.forward_button = new ToolButton(null, null);
+        this.forward_button.set_icon_name("go-next");
+        this.reload_button = new ToolButton(null, null);
+        this.reload_button.set_icon_name("view-refresh");
         toolbar.add (this.back_button);
         toolbar.add (this.forward_button);
         toolbar.add (this.reload_button);
@@ -49,10 +52,10 @@ public class ValaBrowser : Window {
         scrolled_window.add (this.web_view);
         this.status_bar = new Label ("Welcome");
         this.status_bar.xalign = 0;
-        var vbox = new VBox (false, 0);
+        var vbox = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
         vbox.pack_start (toolbar, false, true, 0);
         vbox.pack_start (this.url_bar, false, true, 0);
-        vbox.add (scrolled_window);
+        vbox.pack_start (scrolled_window);
         vbox.pack_start (this.status_bar, false, true, 0);
         add (vbox);
     }
