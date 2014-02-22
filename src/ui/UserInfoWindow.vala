@@ -1,5 +1,7 @@
 /*
- *    Copyright (C) 2013 Venom authors and contributors
+ *    UserInfoWindow.vala
+ *
+ *    Copyright (C) 2013-2014  Venom authors and contributors
  *
  *    This file is part of Venom.
  *
@@ -31,10 +33,17 @@ namespace Venom {
       get { return image_userimage.get_pixbuf(); }
       set { image_userimage.set_from_pixbuf(value); }
     }
-    
     public string user_id {
       set { label_id.set_text(value); }
       get { return label_id.get_text(); }
+    }
+    public int max_name_length {
+      get { return entry_username.max_length; }
+      set { entry_username.max_length = value; }
+    }
+    public int max_status_length {
+      get { return entry_statusmessage.max_length; }
+      set { entry_statusmessage.max_length = value; }
     }
 
     private Gtk.Entry entry_username;
@@ -60,7 +69,7 @@ namespace Venom {
       entry_statusmessage = builder.get_object("entry_statusmessage") as Gtk.Entry;
       image_userimage = builder.get_object("image_userimage") as Gtk.Image;
       label_id = builder.get_object("label_id") as Gtk.Label;
-      
+
       Gtk.Button button_copy_id = builder.get_object("button_copy_id") as Gtk.Button;
       button_copy_id.clicked.connect(() => {
         Gdk.Display display = get_display();

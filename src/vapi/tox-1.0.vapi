@@ -1,5 +1,7 @@
 /*
- *    Copyright (C) 2013 Venom authors and contributors
+ *    tox-1.0.vapi
+ *
+ *    Copyright (C) 2013-2014  Venom authors and contributors
  *
  *    This file is part of Venom.
  *
@@ -104,7 +106,7 @@ namespace Tox {
     RESUME_BROKEN
   }
 
-  [CCode (cname = "TOX_CHAT_CHANGE", cprefix = "TOX_CHAT_CHANGE_", has_type_id = false)]
+  [CCode (cname = "guint8", cprefix = "TOX_CHAT_CHANGE_", has_type_id = false)]
   public enum ChatChange{
     PEER_ADD,
     PEER_DEL,
@@ -372,7 +374,14 @@ namespace Tox {
      */
     public delegate void GroupMessageCallback(Tox tox, int groupnumber, int friendgroupnumber, [CCode(array_length_type="guint16")] uint8[] message);
     public void callback_group_message(GroupMessageCallback callback);
-    
+
+    /* Set the callback for group actions.
+     *
+     *  Function(Tox *tox, int groupnumber, int friendgroupnumber, uint8_t * action, uint16_t length, void *userdata)
+     */
+     public delegate void GroupActionCallback(Tox tox, int groupnumer, int friendgroupnumber, [CCode(array_length_type="guint16")] uint8[] action);
+     public void callback_group_action(GroupActionCallback callback);
+
     /* Set callback function for peer name list changes.
      *
      * It gets called every time the name list changes(new peer/name, deleted peer)
@@ -421,6 +430,12 @@ namespace Tox {
      * return -1 on failure
      */
     public int group_message_send(int groupnumber, [CCode(array_length_type="guint32")] uint8[] message);
+    
+    /* send a group action
+     * return 0 on success
+     * return -1 on failure
+     */
+    public int group_action_send(int groupnumber, [CCode(array_length_type="guint32")] uint8[] action);
 
     /* Return the number of peers in the group chat on success.
      * return -1 on failure
@@ -476,7 +491,7 @@ namespace Tox {
      * the reciever must send a control packet with receive_send == 0 message_id = TOX_FILECONTROL_RESUME_BROKEN and the data being
      * a uint64_t (in host byte order) containing the number of bytes recieved.
      *
-     * If the sender recieves this packet, he must send a control packet with receive_send == 1 and control_type == TOX_FILECONTROL_ACCEPT
+     * If the sender receives this packet, he must send a control packet with receive_send == 1 and control_type == TOX_FILECONTROL_ACCEPT
      * then he must start sending file data from the position (data , uint64_t in host byte order) recieved in the TOX_FILECONTROL_RESUME_BROKEN packet.
      *
      * More to come...
@@ -523,7 +538,7 @@ namespace Tox {
      *  return 0 on success
      *  return -1 on failure
      */
-    public int file_send_control(int friendnumber, uint8 send_receive, uint8 filenumber, uint8 message_id, [CCode(array_length_type="guint16")] uint8[] data);
+    public int file_send_control(int friendnumber, uint8 send_receive, uint8 filenumber, uint8 message_id, [CCode(array_length_type="guint16")] uint8[]? data);
 
     /* Send file data.
      *
