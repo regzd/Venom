@@ -33,7 +33,7 @@ PKG_CHECK_MODULES_FULLPATH(GLIB   REQUIRED glib-2.0>=${TARGET_GLIB})
 PKG_CHECK_MODULES_FULLPATH(SQLITE REQUIRED sqlite3>=3.7)
 PKG_CHECK_MODULES_FULLPATH(JSON   REQUIRED json-glib-1.0>=0.14)
 PKG_CHECK_MODULES_FULLPATH(TOX    REQUIRED libtoxcore>=0.0)
-PKG_CHECK_MODULES_FULLPATH(WEBKIT REQUIRED webkitgtk-3.0>=3.8.1)
+PKG_CHECK_MODULES_FULLPATH(WEBKIT REQUIRED webkitgtk-3.0>=1.8.1)
 
 # Workaround for libtoxcore and libsodium not providing info on
 # all needed static libraries in their pkg-config files
