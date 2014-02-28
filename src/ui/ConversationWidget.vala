@@ -123,7 +123,7 @@ namespace Venom {
       if( ResourceFactory.instance.textview_mode ) {
         conversation_view = new TextConversationView();
       } else {
-        conversation_view = new ConversationView();
+        conversation_view = new WebKitConversationView();
       }
       conversation_view.get_style_context().add_class("chat_list");
       conversation_view.short_names = true;

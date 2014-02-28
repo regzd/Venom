@@ -99,6 +99,7 @@ SET( VENOM_SRC
   ui/TextConversationView.vala
   ui/UserInfoWindow.vala
   ui/UITools.vala
+  ui/WebKitConversationView.vala
   Main.vala
 )
 
@@ -111,6 +112,7 @@ VALA_PRECOMPILE( VALA_C_VENOM
     json-glib-1.0
     sqlite3
     tox-1.0
+    WebKit-3.0
     config
   OPTIONS
     --target-glib=${TARGET_GLIB}
@@ -194,6 +196,7 @@ TARGET_LINK_LIBRARIES( venom
                        ${GTK_LIBRARIES}
                        ${GEE_LIBRARIES}
                        ${JSON_LIBRARIES}
+                       ${WEBKIT_LIBRARIES}
 )
 
 TARGET_LINK_LIBRARIES( test_dht
